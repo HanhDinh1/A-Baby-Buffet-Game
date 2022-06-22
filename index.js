@@ -1,6 +1,8 @@
 window.onload = () => {
 
     let totalFrameCount = 0;
+    let foodArray =[];
+    let foodChoiceArray =['donut', 'broccoli', 'coffee'];
 
     document.getElementById('start-button').onclick = () => {
       startGame();
@@ -41,7 +43,7 @@ function GameTimer() {
 function startGame(){
     const canvas = document.querySelector ('canvas')
     const ctx = canvas.getContext('2d')
-    let loadedImagesObject =null;
+    let loadedImageObjects =null;
     let myBaby;
     let donut;
     let coffee;
@@ -76,6 +78,12 @@ class ImageObject extends RectangleObject {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
+
+//test
+// function drawAilse(){
+//     ctx.clearRect((canvas.width) * 0.18, 0, (canvas.width)*0.64, canvas.height)
+// }
+//end test
    
     function loadImages (sources, callback){
         var images = {};
@@ -94,29 +102,26 @@ class ImageObject extends RectangleObject {
             };
             images[src].src = sources[src];
         }
+        // requestAnimationFrame(loadImages);
     }
     var sources = {
         baby: "./images/baby.png",
         restaurant: "./images/restaurant.png",
         donut: "./images/donut.png",
         broccoli: "./images/broccoli.png",
-        coffee: "./images/coffee.png"
+        coffee: "./images/coffee.png",
+        spoon: "./images/spoon.png"
     };
     
     loadImages(sources, function(images){
-       loadedImagesObject = images;
+       loadedImageObjects = images;
        myBaby = new ImageObject(canvas.width/2, canvas.height -190, 80, 175, images.baby);
-       donut = new ImageObject(0, 0, 30, 30, images.donut)
-       coffee = new ImageObject(0, 30, 30, 30, images.coffee)
-       broccoli = new ImageObject(0, 60, 30, 30, images.broccoli)
+       //donut = new ImageObject(0, 0, 30, 30, images.donut)
+       //coffee = new ImageObject(0, 30, 30, 30, images.coffee)
+       //broccoli = new ImageObject(0, 60, 30, 30, images.broccoli)
+       //spoon
        setInterval(updateGame, 16.76)
     });
-
-    //Music
-    // var backgroundMusic = new Audio('./sounds/carefree.m4a');
-    // backgroundMusic.loop = true;
-    // backgroundMusic.volume = 0.3;
-    // backgroundMusic.play();
 
     //sounds
     
@@ -127,22 +132,39 @@ class ImageObject extends RectangleObject {
 
         function updateGame(){
 
-            totalFrameCount ++;
-
-            //60 frames/seconds => 240/3seconds
+            totalFrameCount++;
+            //60 frames/seconds 
             if(totalFrameCount %240 ===0){
-                // console.log ('4s havs passed')
+                console.log ('4s havs passed')
+                let randomFoodNumber = Math.floor (Math.random() * foodChoiceArray.length)
+                let randomFoodImg = foodChoiceArray[randomFoodNumber];
+
+                let foodX = undefined;
+                let foodY = undefined;
+
+                if (Math.random() > 0.5){
+                    foodX = Math.floor(Math.random() * (canvas.width * 0.18))
+                    foodY = Math.floor(Math.random() * canvas.height)      
+                }
+                else{
+                    foodX = Math.floor(Math.random() * canvas.width * 0.18 + (canvas.width * 0.82))
+                    foodY = Math.floor(Math.random() * canvas.height)  
+                }
+
+                foodArray.push(new ImageObject (foodX, foodY, 30, 30, loadedImageObjects[randomFoodImg]))
             }
             // babyPosition.updatePosition();
             myBaby.updatePosition();
 
             //drawings
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(loadedImagesObject.restaurant, 0, 0, canvas.width, canvas.height);
-            donut.draw();
-            coffee.draw()
-            broccoli.draw()
-           myBaby.draw();
+            ctx.drawImage(loadedImageObjects.restaurant, 0, 0, canvas.width, canvas.height);
+            for (let i =0; i< foodArray.length; i++){
+                foodArray[i].draw()
+            };
+        
+            myBaby.draw();
+           
         }
 
     
@@ -155,8 +177,27 @@ class ImageObject extends RectangleObject {
 //         this.x = x
 //         this.y = y
 //         this.radius = radius
+//         this.color = color
+//         this.velocity = velocity
+//     } 
+//     draw() {
+//         ctx.beginPath()
+//         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+//         ctx.fillStyle = this.color
+//         ctx.fill()
+//             }
 //     }
-// }
+
+
+// addEventListener('click', (event)=>{
+// // console.log('go')
+// const Projectile = new projectile(
+//     event.foodX,
+//     event.foodY,
+
+
+// )
+// })
 //END PROJECTILE
     
 
