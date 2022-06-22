@@ -41,56 +41,89 @@ function GameTimer() {
 function startGame(){
     const canvas = document.querySelector ('canvas')
     const ctx = canvas.getContext('2d')
-    //Music
-    var backgroundMusic = new Audio('./sounds/carefree.m4a');
-    backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.4;
-    backgroundMusic.play();
-
-    //sounds
-
-
-    //TIMER
-    countdownTimer = setInterval(GameTimer, 1000);
-
-    const restaurantImg = new Image();
-        restaurantImg.src = './images/restaurant.png';
-    // const myRestaurant = new ImageObject(0, 0, canvas.width, canvas.height, ctx, restaurantImg);
-
-    const babyImg = new Image();
-        babyImg.src = './images/baby.png';
+    let loadedImagesObject =null;
+    let myBaby;
+    let donut;
+    let coffee;
+    let broccoli;
 
     class RectangleObject {
-            constructor(x, y, width, height){
-            this.x = x;
-            this.y =y;
-            this.vX =0;
-            this.vY = 0;
-            this.width = width;
-            this.height=height;
-        }
-
-        updatePosition (){
-            this.x += this.vX
-            this.y += this.vY
-        }
-
-        // draw(){
-        //     ctx.fillRect(this.x, this.y, this.width, this.height);
-        // }
+        constructor(x, y, width, height){
+        this.x = x;
+        this.y =y;
+        this.vX =0;
+        this.vY = 0;
+        this.width = width;
+        this.height=height;
     }
 
-    class ImageObject extends RectangleObject {
-        constructor(x, y, width, height, imageElement){
-           super(x, y, width, height);
-           this.image = imageElement;
-        }
-        draw(){
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
+    updatePosition (){
+        this.x += this.vX
+        this.y += this.vY
     }
 
-    const myBaby = new ImageObject(canvas.width/2, canvas.height -190, 80, 175, babyImg);
+    // draw(){
+    //     ctx.fillRect(this.x, this.y, this.width, this.height);
+    // }
+}
+
+class ImageObject extends RectangleObject {
+    constructor(x, y, width, height, imageElement){
+       super(x, y, width, height);
+       this.image = imageElement;
+    }
+    draw(){
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+}
+   
+    function loadImages (sources, callback){
+        var images = {};
+        var loadedImages = 0;
+        var numImages = 0;
+    
+        for (var src in sources){
+            numImages++;
+        }
+        for(var src in sources) {
+            images[src] = new Image();
+            images[src].onload = function(){
+                if(++loadedImages >= numImages){
+                    callback(images);
+                }
+            };
+            images[src].src = sources[src];
+        }
+    }
+    var sources = {
+        baby: "./images/baby.png",
+        restaurant: "./images/restaurant.png",
+        donut: "./images/donut.png",
+        broccoli: "./images/broccoli.png",
+        coffee: "./images/coffee.png"
+    };
+    
+    loadImages(sources, function(images){
+       loadedImagesObject = images;
+       myBaby = new ImageObject(canvas.width/2, canvas.height -190, 80, 175, images.baby);
+       donut = new ImageObject(0, 0, 30, 30, images.donut)
+       coffee = new ImageObject(0, 30, 30, 30, images.coffee)
+       broccoli = new ImageObject(0, 60, 30, 30, images.broccoli)
+       setInterval(updateGame, 16.76)
+    });
+
+    //Music
+    // var backgroundMusic = new Audio('./sounds/carefree.m4a');
+    // backgroundMusic.loop = true;
+    // backgroundMusic.volume = 0.3;
+    // backgroundMusic.play();
+
+    //sounds
+    
+
+    //TIMER
+    //countdownTimer = setInterval(GameTimer, 1000);
+
 
         function updateGame(){
 
@@ -103,50 +136,28 @@ function startGame(){
             // babyPosition.updatePosition();
             myBaby.updatePosition();
 
-
             //drawings
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(restaurantImg, 0, 0, canvas.width, canvas.height);
-            
+            ctx.drawImage(loadedImagesObject.restaurant, 0, 0, canvas.width, canvas.height);
+            donut.draw();
+            coffee.draw()
+            broccoli.draw()
            myBaby.draw();
         }
 
-    restaurantImg.onload = () =>{
-            
-            setInterval(updateGame, 16.76)
-    };
-//food
-function loadImages (sources, callback){
-    var images = {};
-    var loadedImages = 0;
-    var numImages = 0;
+    
 
-    for (var src in sources){
-        numImages++;
-    }
-    for(var src in sources) {
-        images[src] = new Image();
-        images[src].onload = function(){
-            if(++loadedImages >= numImages){
-                callback(images);
-            }
-        };
-        images[src].src = sources[src];
-    }
-}
-var sources = {
-    donut: "./images/donut.png",
-    broccoli: "./images/broccoli.png",
-    coffee: "./images/coffee.png"
-};
-loadImages(sources, function(images){
-    ctx.drawImage(images.donut, 0, 0);
-    ctx.drawImage(images.broccoli, 200, 300);
-    ctx.drawImage(images.coffee, 400, 300);
-});
+        
 
-//END FOOD
-
+//PROJECTILE
+// class Projectile{
+//     constructor(x, y, radius, color, velocity){
+//         this.x = x
+//         this.y = y
+//         this.radius = radius
+//     }
+// }
+//END PROJECTILE
     
 
             document.addEventListener('keydown', (event)=>{
