@@ -3,10 +3,19 @@ window.onload = () => {
     let totalFrameCount = 0;
     let foodArray =[];
     let foodChoiceArray =['donut', 'broccoli', 'coffee'];
+    let score = 0;
+    let gameId;
+    let donutCount = 0;
 
     document.getElementById('start-button').onclick = () => {
       startGame();
     };
+
+    //Score
+    const scoreEl = document.querySelector('#scoreEl')
+    
+    //Gameover
+    // const readyBtn = document.querySelector('#readyBtn')
 
     //start timer
     var isWaiting = false;
@@ -24,10 +33,12 @@ function GameTimer() {
     document.getElementById('waiting_time').innerHTML = minutes + ":" + remainingSeconds;
     if (seconds == 0) {
         isRunning = true;
-        seconds += 2;
+        seconds += 1;
         
         if (finalCountdown) {
             clearInterval(countdownTimer);
+            clearInterval(gameId);
+            alert('You ran out of time!Game over!!!')
         } else {
             finalCountdown = true;
         }
@@ -138,26 +149,22 @@ class ImageObject extends RectangleObject {
 
        //spoon = new ImageObject(0, 0, 50, 30, images.spoon);
 
-       //donut = new ImageObject(0, 0, 30, 30, images.donut)
-       //coffee = new ImageObject(0, 30, 30, 30, images.coffee)
-       //broccoli = new ImageObject(0, 60, 30, 30, images.broccoli)
-       //spoon
-       setInterval(updateGame, 16.76)
+       gameId = setInterval(updateGame, 16.76)
     });
 
     //sounds
     
 
     //TIMER
-    //countdownTimer = setInterval(GameTimer, 1000);
+    countdownTimer = setInterval(GameTimer, 1000);
 
 
         function updateGame(){
 
             totalFrameCount++;
             //60 frames/seconds 
-            if(totalFrameCount %240 ===0){
-                console.log ('4s havs passed')
+            if(totalFrameCount % 60 ===0){
+                console.log ('1s havs passed')
                 let randomFoodNumber = Math.floor (Math.random() * foodChoiceArray.length)
                 let randomFoodImg = foodChoiceArray[randomFoodNumber];
 
@@ -166,17 +173,27 @@ class ImageObject extends RectangleObject {
 
                 if (Math.random() > 0.5){
                     foodX = Math.floor(Math.random() * (canvas.width * 0.17))
-                    foodY = Math.floor(Math.random() * canvas.height)      
+                    foodY = Math.floor(Math.random() * canvas.height * 0.9)      
                 }
                 else{
-                    foodX = Math.floor(Math.random() * canvas.width * 0.17 + (canvas.width * 0.81))
-                    foodY = Math.floor(Math.random() * canvas.height)  
+                    foodX = Math.floor(Math.random() * canvas.width * 0.10 + (canvas.width * 0.81))
+                    foodY = Math.floor(Math.random() * canvas.height * 0.9)  
                 }
-
-                foodArray.push(new ImageObject (foodX, foodY, 30, 30, loadedImageObjects[randomFoodImg]))
+                let newFood = new ImageObject(foodX, foodY, 30, 30, loadedImageObjects[randomFoodImg])
+                newFood.swidth = 16;
+                newFood.sheight = 16;
+                if(Math.random() > 0.5){
+                    newFood.vY = Math.random() * 3
+                } else {
+                    newFood.vY = Math.random() * -3
+                }
+                foodArray.push(newFood)
             }
             // babyPosition.updatePosition();
             myBaby.updatePosition();
+            for (let i =0; i< foodArray.length; i++){
+                foodArray[i].updatePosition()
+            };
             if(spoon != undefined){
                 spoon.updatePosition();
             }
@@ -196,75 +213,37 @@ class ImageObject extends RectangleObject {
             for (let i =0; i< foodArray.length; i++){
                 if(spoon != undefined){
                     if (spoon.crashWith(foodArray[i])){
-                        foodArray.splice(i, 1)
+                        let crashFoodArray = foodArray.splice(i, 1)
                         spoon = undefined
+                        // console.log(crashFood, crashFood.image)
+                    switch(crashFoodArray[0].image.src){
+                        case loadedImageObjects.broccoli.src:
+                            score += 100
+                            break
+                        case loadedImageObjects.coffee.src:
+                            clearInterval (gameId)
+                            clearInterval (countdownTimer)
+                            alert('You drank coffee! Game over!!!')
+                            break
+                        case loadedImageObjects.donut.src:
+                            if(donutCount === 2){
+                                clearInterval (gameId)
+                                clearInterval (countdownTimer)
+                                alert('You ate 3 donuts! Game over!!!')
+                            }
+                            else{
+                                score += 200
+                                donutCount++
+                            }               
+                            break
+                    }        
+                        
+                        scoreEl.innerHTML = score
+                        //console.log(score)
                     }                   
                 }            
             };
         }
-
-//PROJECTILE
-// class Projectile{
-//     constructor(x, y, radius, color, velocity){
-//         this.x = x
-//         this.y = y
-//         this.radius = radius
-//         this.color = color
-//         this.velocity = velocity
-//     } 
-//     draw() {
-//         ctx.beginPath()
-//         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-//         ctx.fillStyle = this.color
-//         ctx.fill()
-//             }
-//     update(){
-//         this.draw()
-//         this.x = this.x + this.velocity.x
-//         this.y = this.y + this.velocity.y
-//     }
-//     }
-
-//     let babyPosition =  myBaby.updatePosition();
-//     const baby = new Baby (x, y, )
-
-// //projectile array
-//     const projectile = new Projectile(
-//         // event.clientX,
-//         // event.clientY,
-//         canvas.width/2,
-//         canvas.height/2,
-//         5, 
-//         'pink',
-//         {
-//             x = 1,
-//             y = 1
-//         }
-//     )
-//     const projectiles = [projectile]
-
-//     function animate(){
-//         requestAnimationFrame(animate)
-//         projectiles.forEach ((projectile) =>{
-//             projectile.update()
-//         })
-
-//         // projectile.draw()
-//         // projectile.update()
-//     }
-
-// addEventListener('click', (event)=>{
-// // console.log(event)
-//const angle = Math.atan2(event.clientY - canvas.height/2, 
-//event.clientX - canvas.width/2)
-// projectiles.push(new Projectile(
-//     canvas.width/2, canvas.height/2, 5, 'pink', {x:1, y: 1}
-// ))
-// })
-// animate()
-//END PROJECTILE
-    
-
             document.addEventListener('keydown', (event)=>{
                 switch(event.code){
                     case 'ArrowLeft':
@@ -291,14 +270,14 @@ class ImageObject extends RectangleObject {
                             spoon.sy = 16;
                             spoon.swidth = 16;
                             spoon.sheight = 16;
-                            spoon.vX = 2;
+                            spoon.vX = 4;
                         }
                         else{
                         spoon.sx = 0;
                         spoon.sy = 0;
                         spoon.swidth = 16;
                         spoon.sheight = 16;
-                        spoon.vX = -2;
+                        spoon.vX = -4;
                         }
                 }
             })
@@ -320,7 +299,9 @@ class ImageObject extends RectangleObject {
                 }
             })
 }
-
+// readyBtn.addEventListener('click', ()=>{
+//     console.log('go')
+// })
 
 }
 

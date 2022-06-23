@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="./style.css">
     <title>MY FIRST PROJECT</title>
 </head>
-<body>
+<body>]
+
 <h1 id="title">A Baby Buffet</h1>
 
 <div class="game-intro">
     <img src="./images/instruction.png" alt="" class="instruction" />
     <br />
-    <button id="start-button">StartGame</button>
-    
+    <button id="start-button">StartGame</button>   
 </div>
+
+<!-- <div>
+    <div>
+        <h1>0</h1>
+        <p>Points</p>
+        <div >
+            <button id ="readyBtn">Ready</button>
+        </div>
+    </div>
+</div> -->
 
 <button id="waiting_time" onclick="start()">Go!</button>
 
@@ -23,7 +33,11 @@
 
 <div id = "game-board">
    
-    <canvas id = "canvas" width="500" height="700"></canvas>
+    <canvas id = "canvas" width="500" height="635"></canvas>
+</div>
+
+<div class = "scorebtn">
+    <span>Score: </span> <span id =scoreEl>0</span>  
 </div>
 
 <script type="text/javascript" src="./index.js"></script>
