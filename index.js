@@ -14,8 +14,6 @@ window.onload = () => {
     //Score
     const scoreEl = document.querySelector('#scoreEl')
     
-    //Gameover
-    // const readyBtn = document.querySelector('#readyBtn')
 
     //start timer
     var isWaiting = false;
@@ -38,7 +36,7 @@ function GameTimer() {
         if (finalCountdown) {
             clearInterval(countdownTimer);
             clearInterval(gameId);
-            alert('You ran out of time!Game over!!!')
+            alert('You ran out of time! Game over!!!')
         } else {
             finalCountdown = true;
         }
@@ -86,10 +84,6 @@ function startGame(){
            return false;
         }
     }
-
-    // draw(){
-    //     ctx.fillRect(this.x, this.y, this.width, this.height);
-    // }
 }
 
 class ImageObject extends RectangleObject {
@@ -105,12 +99,6 @@ class ImageObject extends RectangleObject {
         ctx.drawImage(this.image, this.sx, this.sy, this.swidth, this.sheight, this.x, this.y, this.width, this.height);
     }
 }
-
-//test
-// function drawAilse(){
-//     ctx.clearRect((canvas.width) * 0.18, 0, (canvas.width)*0.64, canvas.height)
-// }
-//end test
    
     function loadImages (sources, callback){
         var images = {};
@@ -129,7 +117,7 @@ class ImageObject extends RectangleObject {
             };
             images[src].src = sources[src];
         }
-        // requestAnimationFrame(loadImages);
+    
     }
     var sources = {
         baby: "./images/baby.png",
@@ -146,8 +134,6 @@ class ImageObject extends RectangleObject {
        myBaby.swidth = 891;
        myBaby.sy = 2112;
        myBaby.sheight = 2112;
-
-       //spoon = new ImageObject(0, 0, 50, 30, images.spoon);
 
        gameId = setInterval(updateGame, 16.76)
     });
@@ -176,7 +162,7 @@ class ImageObject extends RectangleObject {
                     foodY = Math.floor(Math.random() * canvas.height * 0.9)      
                 }
                 else{
-                    foodX = Math.floor(Math.random() * canvas.width * 0.10 + (canvas.width * 0.81))
+                    foodX = Math.floor(Math.random() * canvas.width * 0.075 + (canvas.width * 0.81))
                     foodY = Math.floor(Math.random() * canvas.height * 0.9)  
                 }
                 let newFood = new ImageObject(foodX, foodY, 30, 30, loadedImageObjects[randomFoodImg])
@@ -236,10 +222,8 @@ class ImageObject extends RectangleObject {
                                 donutCount++
                             }               
                             break
-                    }        
-                        
-                        scoreEl.innerHTML = score
-                        //console.log(score)
+                    }                              
+                        scoreEl.innerHTML = score               
                     }                   
                 }            
             };
@@ -299,35 +283,4 @@ class ImageObject extends RectangleObject {
                 }
             })
 }
-// readyBtn.addEventListener('click', ()=>{
-//     console.log('go')
-// })
-
 }
-
-
-
-
-// class Player{
-//     constructor(x, y, radius, color) {
-//         this.x = x
-//         this.y = y
-//         this.radius = radius
-//         this.color = color
-//     }
-
-//     draw() {
-//         ctx.beginPath()
-//         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-//         ctx.fillStyle = this.color
-//         ctx.fill()
-//     }
-// }
-
-// const x = 250   
-// const y = 300
-
-// const player = new Player (x, y, 30, 'black')
-// player.draw()
-
-// console.log(player)
