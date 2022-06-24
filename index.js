@@ -12,8 +12,7 @@ window.onload = () => {
     };
 
     //Score
-    const scoreEl = document.querySelector('#scoreEl')
-    
+    const scoreEl = document.querySelector('#scoreEl')    
 
     //start timer
     var isWaiting = false;
@@ -47,8 +46,8 @@ function GameTimer() {
     }
 }
     //end timer
-
-    
+ 
+// START GAME
 function startGame(){
     const canvas = document.querySelector ('canvas')
     const ctx = canvas.getContext('2d')
@@ -139,11 +138,13 @@ class ImageObject extends RectangleObject {
     });
 
     //sounds
-    
+    var backgroundMusic = new Audio('./sounds/backgroundmusic.m4a');
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.25;
+    backgroundMusic.play();
 
     //TIMER
     countdownTimer = setInterval(GameTimer, 1000);
-
 
         function updateGame(){
 
@@ -201,7 +202,7 @@ class ImageObject extends RectangleObject {
                     if (spoon.crashWith(foodArray[i])){
                         let crashFoodArray = foodArray.splice(i, 1)
                         spoon = undefined
-                        // console.log(crashFood, crashFood.image)
+                        
                     switch(crashFoodArray[0].image.src){
                         case loadedImageObjects.broccoli.src:
                             score += 100
@@ -209,16 +210,16 @@ class ImageObject extends RectangleObject {
                         case loadedImageObjects.coffee.src:
                             clearInterval (gameId)
                             clearInterval (countdownTimer)
-                            alert('You drank coffee! Game over!!!')
+                            alert('Elizabeth drank coffee! Game over!!!')
                             break
                         case loadedImageObjects.donut.src:
                             if(donutCount === 2){
                                 clearInterval (gameId)
                                 clearInterval (countdownTimer)
-                                alert('You ate 3 donuts! Game over!!!')
+                                alert('Elizabeth ate 3 donuts! Game over!!!')
                             }
                             else{
-                                score += 200
+                                score += 300
                                 donutCount++
                             }               
                             break

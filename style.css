@@ -16,8 +16,6 @@ body {
     color: grey;
   }
 
-
-  
   .game-intro {
     float: left;
     padding: 0% 10%;
@@ -32,10 +30,7 @@ body {
     width: 350px;
     margin-top: 17px;
   }
-  # scoreEl{
-    font-size: 40px;
-    color: #7D1E6A;
-  }
+
   
   body button {
     font-size: 30px;
@@ -52,8 +47,4 @@ body {
       float: left;
       padding: 20px 0px;
   }
-  
-  /* #canvas{
-    background-color: yellow;
-  } */
   
