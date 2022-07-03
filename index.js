@@ -219,7 +219,7 @@ class ImageObject extends RectangleObject {
                                 alert('Elizabeth ate 3 donuts! Game over!!!')
                             }
                             else{
-                                score += 300
+                                score += 200
                                 donutCount++
                             }               
                             break
