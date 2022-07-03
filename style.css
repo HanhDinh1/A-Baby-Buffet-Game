@@ -1,0 +1,59 @@
+body {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    background-color: pink;
+  }
+  h1 {
+    font-size: 4rem;
+    color: #7D1E6A;
+    font-family: "Arvo", cursive;
+    text-shadow: 3px 0 white;
+    margin-top: 13px;
+    margin-bottom: 18px;
+  }
+  p{
+    color: grey;
+  }
+
+
+  
+  .game-intro {
+    float: left;
+    padding: 0% 10%;
+  }
+  
+  .game-intro p {
+    font-size: 18px;
+    font-family: "Verdana"
+  }
+  
+  .instruction {
+    width: 350px;
+    margin-top: 17px;
+  }
+  # scoreEl{
+    font-size: 40px;
+    color: #7D1E6A;
+  }
+  
+  body button {
+    font-size: 30px;
+    background-color: #7D1E6A;
+    color: #fff;
+    padding: 20px 40px;
+    border: 0;
+    box-shadow: 0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  #game-board {
+      float: left;
+      padding: 20px 0px;
+  }
+  
+  /* #canvas{
+    background-color: yellow;
+  } */
+  
